@@ -27,23 +27,19 @@ class ProductManager {
     fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
   }
 
-  addProduct(product) {
-    if (!product.title || !product.price || !product.stock) {
-      throw new Error("Campos bligatorios.");
-    }
+addProduct(product) {
+        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+            throw new Error("Todos los campos son obligatorios.");
+        }
 
-    if (
-      this.products.some(
-        (existingProduct) => existingProduct.code === product.code
-      )
-    ) {
-      throw new Error("Codigo Existente.");
-    }
+        if (this.products.some((existingProduct) => existingProduct.code === product.code)) {
+            throw new Error("El código del producto ya existe.");
+        }
 
-    product.id = this.productIdCounter++;
-    this.products.push(product);
-    this.saveProducts();
-  }
+        product.id = this.productIdCounter++;
+        this.products.push(product);
+        this.saveProducts();
+    }
 
   async getProducts(limit) {
     if (limit) {
